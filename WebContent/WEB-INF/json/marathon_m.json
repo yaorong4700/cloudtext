@@ -1,0 +1,1 @@
+{"id":"aa/paasweb.war","cmd":null,"cpus":0.1,"mem":128,"instances":1,"container":{"docker":{"network":"BRIDGE","image":"hscnimages/aa/paasweb.war","portMappings":[{"containerPort":8080,"protocol":"tcp","hostPort":0},{"containerPort":10000,"protocol":"tcp","hostPort":0},{"containerPort":10001,"protocol":"tcp","hostPort":0}]},"type":"DOCKER"}}
