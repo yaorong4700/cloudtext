@@ -148,6 +148,7 @@
     </target>
     <target name="clean">
         <delete dir="build/classes"/>
+    	<delete dir="dist"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
