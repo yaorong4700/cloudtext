@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.5.3">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/yaorong4700/paasweb.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <assignedNode>slave148</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.21.0">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Ant plugin="ant@1.3">
+      <targets>war</targets>
+      <antName>ant</antName>
+    </hudson.tasks.Ant>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+mv dist/*.war dist/${JOB_NAME}.war
+if [ -f Dockerfile ]; then
+	rm Dockerfile
+fi
+touch Dockerfile
+echo &quot;FROM 192.168.1.89:5000/tomcat7_jre7&quot; &gt;&gt; Dockerfile
+echo &quot;ADD dist/${JOB_NAME}.war /usr/local/tomcat/webapps&quot; &gt;&gt; Dockerfile</command>
+    </hudson.tasks.Shell>
+    <com.cloudbees.dockerpublish.DockerBuilder plugin="docker-build-publish@1.3.1">
+      <server plugin="docker-commons@1.4.0">
+        <uri>tcp://192.168.1.148:2375</uri>
+      </server>
+      <registry plugin="docker-commons@1.4.0">
+        <url>http://192.168.1.89:5000/v2</url>
+      </registry>
+      <repoName>${JOB_NAME}</repoName>
+      <noCache>false</noCache>
+      <forcePull>true</forcePull>
+      <skipBuild>false</skipBuild>
+      <skipDecorate>false</skipDecorate>
+      <repoTag>latest</repoTag>
+      <skipPush>false</skipPush>
+      <createFingerprint>true</createFingerprint>
+      <skipTagLatest>false</skipTagLatest>
+      <buildAdditionalArgs></buildAdditionalArgs>
+      <forceTag>false</forceTag>
+    </com.cloudbees.dockerpublish.DockerBuilder>
+    <hudson.tasks.Ant plugin="ant@1.3">
+      <targets>clean</targets>
+      <antName>ant</antName>
+    </hudson.tasks.Ant>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

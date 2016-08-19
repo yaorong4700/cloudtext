@@ -11,7 +11,7 @@ public class mysqlconn {
 	private Connection conn = null;
 	PreparedStatement statement = null;
 	private String dbDriver = "com.mysql.jdbc.Driver";
-	private String dbUrl = "jdbc:mysql://10.97.144.83:3306/helloclouddb?user=root&password=123456&useUnicode=true&&characterEncoding=gb2312&autoReconnect = true";// 根据实际情况变化
+	private String dbUrl = "jdbc:mysql://192.168.1.89:3306/helloclouddb?user=root&password=123456&useUnicode=true&&characterEncoding=gb2312&autoReconnect = true";// 根据实际情况变化
 	private String dbUser = "root";
 	private String dbPass = "123456";
 

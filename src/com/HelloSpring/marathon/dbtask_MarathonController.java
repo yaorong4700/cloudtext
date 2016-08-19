@@ -93,7 +93,7 @@ public class dbtask_MarathonController {
 	//	int tomcat_port = 8080;
 		
 		Create_db_Image createImage= new Create_db_Image();
-		createImage.run(request,response,username,servicename,usermail,"10.97.144.83:5000/mysql",db_user,db_passd);
+		createImage.run(request,response,username,servicename,usermail,"192.168.1.89:5000/mysql",db_user,db_passd);
 	
 		
 		
@@ -155,7 +155,7 @@ public class dbtask_MarathonController {
 		marathon_task.setInstances(i_Preg_Instances);
 		marathon_task.setMem(i_Preg_Mem);
 		
-		docker.setImage("10.97.144.83:5000/"+username+"/"+servicename);
+		docker.setImage("192.168.1.89:5000/"+username+"/"+servicename);
 		
 		docker.setNetwork("BRIDGE");
 		docker.setPortMappings(portMappings);
@@ -183,7 +183,7 @@ public class dbtask_MarathonController {
 		String task_result=null;
 		while(task[1].length()<20)
 		{
-			task[1] = getDataByShellCMD("curl http://10.97.144.83:8080/v2/apps/"+username+"/"+servicename+"/tasks");
+			task[1] = getDataByShellCMD("curl http://192.168.1.89:8080/v2/apps/"+username+"/"+servicename+"/tasks");
 			System.out.println(task_result);
 		}
 	

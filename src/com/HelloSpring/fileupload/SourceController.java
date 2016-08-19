@@ -125,13 +125,13 @@ public class SourceController implements ServletConfigAware, ServletContextAware
 		String code = su.getRequest().getParameter("code");
 		String jdk = su.getRequest().getParameter("jdk");
 
-		String baseimage = "10.97.144.83:5000/tomcat7_jre7";
+		String baseimage = "192.168.1.89:5000/tomcat7_jre7";
 	if(jdk.equals("jdk-7")){
-		 baseimage = "10.97.144.83:5000/tomcat7_jre7";
+		 baseimage = "192.168.1.89:5000/tomcat7_jre7";
 	}
 	else if (jdk.equals("jdk-8"))
 	{
-		 baseimage = "10.97.144.83:5000/tomcat7_jre8";
+		 baseimage = "192.168.1.89:5000/tomcat7_jre8";
 	}
 		// 文件上传地址
 		String filePath = request.getSession().getServletContext().getRealPath("/") + "WEB-INF/User/" + username;
@@ -185,7 +185,7 @@ public class SourceController implements ServletConfigAware, ServletContextAware
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		String imagename = "10.97.144.83:5000/" + username + "/" + filename_0[0];
+		String imagename = "192.168.1.89:5000/" + username + "/" + filename_0[0];
 	//	double[] mesos_info = mesos_info();
 
 		/////// mysql//////////////////////////////////////////////////////////////////////

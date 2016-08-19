@@ -159,17 +159,20 @@ String code = request.getParameter("code");
 String from = request.getParameter("from");
 String filename = request.getParameter("filename");
 String filename_0 = request.getParameter("filename_0");
-if (code.equals("1")) {
-	String[] a=src_github_link.split("\\.g");
-	String[] b= a[0].split(".com/");
-	String[] c=b[1].split("/");
-	 filename_0=c[1];
-	filename = filename_0;
+String username = request.getParameter("username");
+String usermail = request.getParameter("usermail");
+
+String bamboo=filename;
+if(filename.contains("_")){
+	String[] aa=filename.split("_");
+	filename=aa[1];
+	filename_0= filename;
 	System.out.print(filename_0);
+	code="1";
+	bamboo=username+"_"+ filename;
 }
-System.out.println(from);
-		String username = request.getParameter("username");
-		String usermail = request.getParameter("usermail");
+
+		
 		String resource = request.getParameter("resource");
 		System.out.print(resource);
 		String imagename = request.getParameter("imagename");
@@ -178,9 +181,7 @@ System.out.println(from);
 		String Preg_Mem = request.getParameter("preg_mem");
 		String Preg_Instances = request.getParameter("preg_instances");
 		String Preg_CMD = null;
-		if(resource.equals("00"))
-		{}
-		else{
+
 	////////////////////////////////////////////////////////////////
 		String sql1 = "select * from resourcelist where setname='"+resource+"'";  
 		mysqlconn mysqlconn1=new mysqlconn();
@@ -201,7 +202,7 @@ System.out.println(from);
 	        e.printStackTrace();  
 	    }  
 /////////////////////////////////////////////////////////////////
-		}
+
 	    double d_Preg_CPU = Double.parseDouble(Preg_CPU);
 		int i_Preg_Mem = Integer.parseInt(Preg_Mem);
 		int i_Preg_Instances = Integer.parseInt(Preg_Instances);
@@ -236,12 +237,8 @@ System.out.println(from);
 		marathon_task.setCmd(Preg_CMD);
 		marathon_task.setCpus(d_Preg_CPU);
 		marathon_task.setInstances(i_Preg_Instances);
-		marathon_task.setMem(i_Preg_Mem);
-		if (code.equals("0")) {
+		marathon_task.setMem(i_Preg_Mem);	
 			docker.setImage(imagename);
-		} else if (code.equals("1")) {
-			docker.setImage("10.97.144.83:5000/tomcat7_jre7");
-		}
 		docker.setNetwork("BRIDGE");
 		docker.setPortMappings(portMappings);
 		container.setDocker(docker);
@@ -254,11 +251,12 @@ System.out.println(from);
 		String appport = "";
 		String apphost = "";
 		
+		
 		try {
 			getDataByShellCMD("chmod +x " + request.getSession().getServletContext().getRealPath("/")
 					+ "WEB-INF/sh/run_image.sh");
 			run_result = getDataByShellCMD(request.getSession().getServletContext().getRealPath("/")
-					+ "WEB-INF/sh/run_image.sh  " + username + " " + filename);
+					+ "WEB-INF/sh/run_image.sh  " + username + " " + filename+" "+bamboo);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -267,7 +265,7 @@ System.out.println(from);
 		String task_result=null;
 		while(task[1].length()<20)
 		{
-			task[1] = getDataByShellCMD("curl http://10.97.144.83:8080/v2/apps/"+username+"/"+filename+"/tasks");
+			task[1] = getDataByShellCMD("curl http://192.168.1.89:8080/v2/apps/"+username+"/"+filename+"/tasks");
 			System.out.println(task_result);
 		}
 	
@@ -281,117 +279,9 @@ System.out.println(from);
 		System.out.println(apphost+":"+appport);
 	
 
-		////// 持续集成实现代码/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		if (code.equals("1")) {
-		
-			ModelAndView mav = null;
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setIgnoringElementContentWhitespace(true);
-			try {
-				DocumentBuilder db = dbf.newDocumentBuilder();
-				Document doc = db.parse(
-						request.getSession().getServletContext().getRealPath("/") + "WEB-INF/resource/mode_tomcat.xml"); // 使用dom解析xml文件
-				/** 修改xml: github link */
-				NodeList sonlist = doc.getElementsByTagName("hudson.plugins.git.UserRemoteConfig");
-				for (int i = 0; i < sonlist.getLength(); i++) // 循环处理对象
-				{
-					Element son = (Element) sonlist.item(i);
-					for (Node node = son.getFirstChild(); node != null; node = node.getNextSibling()) {
-						if (node.getNodeType() == Node.ELEMENT_NODE) {
-							node.getFirstChild().setNodeValue(src_github_link);
-							// System.out.println(node.getFirstChild().getNodeValue());
-						}
-					}
-				}
-
-				/** 修改xml: github branch */
-				NodeList sonlist1 = doc.getElementsByTagName("hudson.plugins.git.BranchSpec");
-				for (int i = 0; i < sonlist1.getLength(); i++) // 循环处理对象
-				{
-					Element son = (Element) sonlist1.item(i);
-					for (Node node = son.getFirstChild(); node != null; node = node.getNextSibling()) {
-						if (node.getNodeType() == Node.ELEMENT_NODE) {
-							node.getFirstChild().setNodeValue("*/" + src_github_branch);
-						}
-					}
-				}
-				/** 修改xml: tomcat 的端口 */
-				NodeList sonlist2 = doc.getElementsByTagName("hudson.plugins.deploy.tomcat.Tomcat7xAdapter");
-				for (int i = 0; i < sonlist2.getLength(); i++) // 循环处理对象
-				{
-					Element son = (Element) sonlist2.item(i);
-					for (Node node = son.getFirstChild(); node != null; node = node.getNextSibling()) {
-						if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("url")) {
-							node.getFirstChild().setNodeValue("http://"+apphost+":" + appport);
-						}
-					}
-				}
-
-				/** 修改xml: sourcename */
-				NodeList sonlist3 = doc.getElementsByTagName("hudson.plugins.deploy.DeployPublisher");
-				for (int i = 0; i < sonlist3.getLength(); i++) // 循环处理对象
-				{
-					Element son = (Element) sonlist3.item(i);
-					for (Node node = son.getFirstChild(); node != null; node = node.getNextSibling()) {
-						if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("contextPath")) {
-							node.getFirstChild().setNodeValue(filename_0);
-						}
-						if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals("war")) {
-							node.getFirstChild().setNodeValue("dist/" + filename_0 + ".war");
-						}
-					}
-				}
-				// System.out.println(username);
-				// System.out.println(filename_0);
-				TransformerFactory factory = TransformerFactory.newInstance();
-				Transformer former = factory.newTransformer();
-				former.transform(new DOMSource(doc),
-						new StreamResult(new File(request.getSession().getServletContext().getRealPath("/")
-								+ "WEB-INF/User/" + username + "/" + filename_0 + ".xml")));
-			
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			String jenkins_shResult = "";
-			String jenkins_BuiltResult = "";
-			try {
-				getDataByShellCMD("chmod +x " + request.getSession().getServletContext().getRealPath("/")
-						+ "WEB-INF/sh/using_jenkins.sh");
-				jenkins_shResult = getDataByShellCMD(request.getSession().getServletContext().getRealPath("/")
-						+ "WEB-INF/sh/using_jenkins.sh  " + username + " " + filename_0);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		String status = "ok";
-		// 将参数返回给页面
-		if (code.equals("0")) {
-			status = "ok";
-		} else if (code.equals("1")) {
-			String jenkinsbuildresult = "[WARN] Failed to authenticate with your SSH keys. Proceeding as anonymousFinished: SUSS";
-			status = "wait";
-			int count=0;
-			while (!(jenkinsbuildresult.contains("Finished: SUCCESS"))) {
-				count+=1;
-				try {
-					getDataByShellCMD("chmod +x " + request.getSession().getServletContext().getRealPath("/")
-							+ "WEB-INF/sh/get_jenkinsbuildresult.sh");
-					jenkinsbuildresult = getDataByShellCMD(request.getSession().getServletContext().getRealPath("/")
-							+ "WEB-INF/sh/get_jenkinsbuildresult.sh  " + username + " " + filename_0);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if(count>10){ status = "fail";break; }
-					status = "ok";
-			}
-		}
-	//	String imagename = "hscnimages/" + username + "/" + filename;
-	
-
-				
-			/////// mysql//////////////////////////////////////////////////////////////////////
+	/////// mysql//////////////////////////////////////////////////////////////////////
 				String sql = "insert into applist(user,status,programname,imagename,cpu,mem,lisence,CD,appport) values(?,?,?,?,?,?,?,?,?)";
 				mysqlconn mysqlconn=new mysqlconn();
 				Connection cnn = mysqlconn.connSQL();
@@ -399,7 +289,7 @@ System.out.println(from);
 					PreparedStatement preStmt = cnn.prepareStatement(sql);
 					preStmt.setString(1, username);
 					preStmt.setString(2, status);
-					preStmt.setString(3, filename);
+					preStmt.setString(3,filename);
 					preStmt.setString(4, imagename);
 					preStmt.setString(5, Preg_CPU);
 					preStmt.setString(6, Preg_Mem);

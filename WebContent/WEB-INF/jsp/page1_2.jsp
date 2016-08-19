@@ -103,222 +103,23 @@ a {
 	animation: rotateplane 1.2s infinite ease-in-out;
 }
 
-@
--webkit-keyframes rotateplane { 0% {
-	-webkit-transform: perspective(120px)
+@-webkit-keyframes rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
 }
-
-50%
-{
--webkit-transform
-
-
-:
-
  
-
-perspective
-
-
-(120
-px
-)
-
- 
-
-rotateY
-
-
-(180
-deg
-)
-
- 
-
-}
-100%
-{
--webkit-transform
-
-
-:
-
- 
-
-perspective
-
-
-(120
-px
-)
-
- 
-
-rotateY
-
-
-(180
-deg
-)
-
-  
-
-rotateX
-
-
-(180
-deg
-)
-
- 
-
-}
-}
-@
-keyframes rotateplane { 0% {
-	transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-	-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
-}
-50%
-{
-transform
-
-
-:
-
- 
-
-perspective
-
-
-(120
-px
-)
-
- 
-
-rotateX
-
-
-(-180
-.1deg
-
-
-)
-rotateY
-
-
-(0
-deg
-);
-
-
-    
-
--webkit-transform
-
-
-:
-
- 
-
-perspective
-
-
-(120
-px
-)
-
- 
-
-rotateX
-
-
-(-180
-.1deg
-
-
-)
-rotateY
-
-
-(0
-deg
-)
-
- 
-  
-
-}
-100%
-{
-transform
-
-
-:
-
- 
-
-perspective
-
-
-(120
-px
-)
-
- 
-
-rotateX
-
-
-(-180
-deg
-)
-
- 
-
-rotateY
-
-
-(-179
-.9deg
-
-
-);
--webkit-transform
-
-
-:
-
- 
-
-perspective
-
-
-(120
-px
-)
-
- 
-
-rotateX
-
-
-(-180
-deg
-)
-
- 
-
-rotateY
-
-
-(-179
-.9deg
-
-
-);
-}
+@keyframes rotateplane {
+  0% { 
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+  } 50% { 
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+  } 100% { 
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
 }
 </style>
 <script type="text/javascript">
@@ -399,7 +200,7 @@ rotateY
 				//表名   
 				String tableName1 = "resourcelist";
 				//联结字符串   
-				String url1 = "jdbc:mysql://10.97.144.83:3306/" + dbName1 + "?user=" + userName1 + "&password=" + userPasswd1;
+				String url1 = "jdbc:mysql://192.168.1.89:3306/" + dbName1 + "?user=" + userName1 + "&password=" + userPasswd1;
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
 				Connection connection1 = DriverManager.getConnection(url1);
 				Statement statement1 = connection1.createStatement();
@@ -410,7 +211,7 @@ rotateY
 
 
 
-			<form action="marathon" method="post">
+			<form action="jenkins_job" method="post">
 				<input type="hidden" id="username" name="username"
 					value="${username}">  <input type="hidden"
 					id="usermail" name="usermail" value="${usermail}">
@@ -421,20 +222,7 @@ rotateY
 				Github项目分支:<input type="text" id="src_github_branch"
 					name="src_github_branch">
 				
-					<br> 资源选择<select
-					name="resource">
-					<%
-						while (rs1.next()) {
-					%>
-					<option>
-						<%
-							out.print(rs1.getString(2));
-						%>
-					</option>
-					<%
-						}
-					%>
-				</select> <br> <label class="label1">例:master</label> <br> <input
+					<br><label class="label1">例:master</label> <br> <input
 					type="submit" name="bt_upload" id="bt_upload" value="下一步"
 					class="inputSubmit" onclick="onloading();" />
 			</form>

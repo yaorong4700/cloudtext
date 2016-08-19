@@ -14,6 +14,6 @@ cd $1
 path=`pwd`
 echo "（*******转到文件目录$path下*******）"
 
-echo "*run image 10.97.144.83:8080/v2/apps*start"
-curl -i --request DELETE 10.97.144.83:8080/v2/apps/$1/$2
-echo "*run image 10.97.144.83:8080/v2/apps*end"
+echo "*run image 192.168.1.89:8080/v2/apps*start"
+curl -i --request DELETE 192.168.1.89:8080/v2/apps/$1/$2
+echo "*run image 192.168.1.89:8080/v2/apps*end"

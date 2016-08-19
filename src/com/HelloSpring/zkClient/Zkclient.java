@@ -11,7 +11,7 @@ public class Zkclient {
 
 	public String getip() {
 
-		String serverList = "10.97.144.84:2181,10.97.144.82:2181,10.97.144.83:2181";
+		String serverList = "192.168.1.148:2181,192.168.1.142:2181,192.168.1.89:2181";
 		ZkClient zkClient = new ZkClient(serverList, 10000, 10000);
 		boolean e = zkClient.exists("/mesos");
 		zkClient.getChildren("/mesos");

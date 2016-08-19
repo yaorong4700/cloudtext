@@ -21,5 +21,5 @@ cp $path1/jenkins-cli.jar jenkins-cli.jar
 #java -jar jenkins-cli.jar -s http://192.168.1.89:8082/ login --username hscn123 --password hscn123
 #echo "login......end"
 #echo "console $1_$2 -f -n 1.....start"
-java -jar jenkins-cli.jar -s http://10.97.144.84:8081/ console $1_$2 -f -n 1
+java -jar jenkins-cli.jar -s http://192.168.1.148:8081/ console $1_$2 -f -n 1
 #echo "console $1_$2 -f -n 1......end"

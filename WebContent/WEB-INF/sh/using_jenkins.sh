@@ -18,15 +18,15 @@ cp $path1/jenkins-cli.jar jenkins-cli.jar
 echo "获取完毕 该目录下的文件如下："
 ls
 echo "login......start"
-java -jar jenkins-cli.jar -s http://10.97.144.84:8081/ login --username hscn123 --password hscn123
+java -jar jenkins-cli.jar -s http://192.168.1.148:8081/ login --username hscn123 --password hscn123
 echo "login......end"
 
 echo "create-job.$1_$2.....start"
-java -jar jenkins-cli.jar -s http://10.97.144.84:8081/ create-job $1_$2 < $2.xml
+java -jar jenkins-cli.jar -s http://192.168.1.148:8081/ create-job $1_$2 < $2.xml
 echo "create-job......end"
 
 echo "build.$1_$2.....start"
-java -jar jenkins-cli.jar -s http://10.97.144.84:8081/ build $1_$2
+java -jar jenkins-cli.jar -s http://192.168.1.148:8081/ build $1_$2
 echo "build......end"
-echo "curl http://10.97.144.84:8081/job/$2/lastBuild/consoleText"
+echo "curl http://192.168.1.148:8081/job/$2/lastBuild/consoleText"
 #curl http://192.168.1.89:8082/job/$2/lastBuild/consoleText

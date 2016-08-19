@@ -90,6 +90,14 @@ public class app_Controller {
 		String Preg_Mem = request.getParameter("preg_mem");
 		String Preg_Instances = request.getParameter("preg_instances");
 		String Preg_CMD = null;
+		
+		if(filename.contains("_")){
+			String[] aa=filename.split("_");
+			filename=aa[1];
+			filename_0= filename;
+			System.out.print(filename_0);
+			code="1";
+		}
 
 		double d_Preg_CPU = Double.parseDouble(Preg_CPU);
 		int i_Preg_Mem = Integer.parseInt(Preg_Mem);
@@ -187,6 +195,13 @@ public class app_Controller {
 		String Preg_Mem = request.getParameter("preg_mem");
 		String Preg_Instances = request.getParameter("preg_instances");
 		String Preg_CMD = null;
+		
+		if(filename.contains("_")){
+			String[] aa=filename.split("_");
+			filename=aa[1];
+			filename_0= filename;
+			System.out.print(filename_0);
+		}
 
 		double d_Preg_CPU = Double.parseDouble(Preg_CPU);
 		int i_Preg_Mem = Integer.parseInt(Preg_Mem);
@@ -245,9 +260,9 @@ public class app_Controller {
 		}
 
 		String task = getDataByShellCMD(
-				"curl http://10.97.144.83:8080/v2/apps/" + username + "/" + filename + "/tasks");
+				"curl http://192.168.1.89:8080/v2/apps/" + username + "/" + filename + "/tasks");
 		while (task.length() < 20) {
-			task = getDataByShellCMD("curl http://10.97.144.83:8080/v2/apps/" + username + "/" + filename + "/tasks");
+			task = getDataByShellCMD("curl http://192.168.1.89:8080/v2/apps/" + username + "/" + filename + "/tasks");
 		}
 		JSONObject jsonobject = JSONObject.fromObject(task);
 		JSONArray array = jsonobject.getJSONArray("tasks");
@@ -287,7 +302,13 @@ public class app_Controller {
 		String filename = request.getParameter("filename");
 		String username = request.getParameter("username");
 		String usermail = request.getParameter("usermail");
-
+		if(filename.contains("_")){
+			String[] aa=filename.split("_");
+			filename=aa[1];
+			
+	
+		}
+		
 			String run_result = "";
 
 		try {

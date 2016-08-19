@@ -109,233 +109,23 @@ a {
 	animation: rotateplane 1.2s infinite ease-in-out;
 }
 
-@
--webkit-keyframes rotateplane { 0% {
-	-webkit-transform: perspective(120px)
+@-webkit-keyframes rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
 }
-
-50%
-{
--webkit-transform
-
-
-
-
-:
-
-
-
-
-perspective
-
-
-
-
-(120
-px
-
-
-
-
-)
-rotateY
-
-
-
-
-
-(180
-deg
-
-
-
-
-)
-}
-100%
-{
--webkit-transform
-
-
-
-
-
-:
-
-
-
-
-
-perspective
-
-
-
-
-
-(120
-px
-
-
-
-
-
-)
-rotateY
-
-
-
-
-
-(180
-deg
-
-
-
-
-
-)
-rotateX
-
-
-
-
-
-(180
-deg
-
-
-
-
-)
-}
-}
-@
-keyframes rotateplane { 0% {
-	transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-	-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
-}
-50%
-{
-transform
-
-
-:
-
-
-
-
-perspective
-
-
-(120
-px
-
-
-)
-rotateX
-
-
-(-180
-.1deg
-
-
-)
-rotateY
-
-
-(0
-deg
-);
-
-
-
-
--webkit-transform
-
-
-:perspective(120px)
-
-
-rotateX
-
-
-(-180
-.1deg
-
-
-)
-rotateY
-
-
-(0
-deg
-
-
-)
-}
-100%
-{
-transform
-
-
-:
-
-
-perspective
-
-
-(120
-px
-
-
-)
-rotateX
-
-
-(-180
-deg
-
-
-)
-rotateY
-
-
-(-179
-.9deg
-
-
-);
--webkit-transform
-
-
-:
-
-
-perspective
-
-
-(120
-px
-
-
-)
-rotateX
-
-
-(-180
-deg
-
-
-)
-rotateY
-
-
-(-179
-.9deg
-
-
-);
-}
+ 
+@keyframes rotateplane {
+  0% { 
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+  } 50% { 
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+  } 100% { 
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
 }
 </style>
 <script type="text/javascript">
@@ -418,7 +208,7 @@ rotateY
 			//表名   
 			String tableName2 = "resourceall";
 			//联结字符串   
-			String url2 = "jdbc:mysql://10.97.144.83:3306/" + dbName2 + "?user=" + userName2 + "&password=" + userPasswd2;
+			String url2 = "jdbc:mysql://192.168.1.89:3306/" + dbName2 + "?user=" + userName2 + "&password=" + userPasswd2;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection connection2 = DriverManager.getConnection(url2);
 			Statement statement2 = connection2.createStatement();
@@ -516,7 +306,7 @@ rotateY
 					//表名   
 					String tableName = "servicelist";
 					//联结字符串   
-					String url = "jdbc:mysql://10.97.144.83:3306/" + dbName + "?user=" + userName + "&password=" + userPasswd;
+					String url = "jdbc:mysql://192.168.1.89:3306/" + dbName + "?user=" + userName + "&password=" + userPasswd;
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
 					Connection connection = DriverManager.getConnection(url);
 					Statement statement = connection.createStatement();

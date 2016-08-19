@@ -36,8 +36,8 @@ echo $ENV2 >> Dockerfile
 
 
 echo "*build start hscnimages/$1/$2 *"
-echo "hscn123" |sudo -S docker build -t 10.97.144.83:5000/$1/$2 .
+echo "hscn123" |sudo -S docker build -t 192.168.1.89:5000/$1/$2 .
 echo "*build end hscnimages/$1/$2 *"
 
-echo "hscn123" |sudo -S docker push 10.97.144.83:5000/$1/$2
+echo "hscn123" |sudo -S docker push 192.168.1.89:5000/$1/$2
 

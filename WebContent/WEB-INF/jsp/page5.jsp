@@ -165,7 +165,7 @@ text-decoration:none;
         //表名   
         String tableName = "applist";  
         //联结字符串   
-        String url = "jdbc:mysql://10.97.144.83:3306/" + dbName + "?user="  
+        String url = "jdbc:mysql://192.168.1.89:3306/" + dbName + "?user="  
                 + userName + "&password=" + userPasswd;  
         Class.forName("com.mysql.jdbc.Driver").newInstance();  
         Connection connection = DriverManager.getConnection(url);  
@@ -203,7 +203,12 @@ text-decoration:none;
             <td><%out.print(rs.getString(7));%></td> 
             <td><%out.print(rs.getString(8));%></td> 
 
-          <td><a href="http://10.97.144.83/<%out.print(rs.getString(3));%>/">打开</a></td>
+<% if(rs.getString(8).equals("0")){ %>
+          <td><a href="http://192.168.1.89/<%out.print(rs.getString(3));%>/">打开</a></td>
+<%} %>
+<% if(rs.getString(8).equals("1")){ %>
+          <td><a href="http://192.168.1.89/${username}_<%out.print(rs.getString(3));%>/">打开</a></td>
+<%} %>
             	<%// if(rs.getString(8).equals("0")){ %>
             <td>
 					 <form action="app_stop" method="post">
@@ -245,7 +250,7 @@ text-decoration:none;
 							<input type="hidden" id="preg_cpu" name="preg_cpu" value="<%=rs.getString(5)%>"> 
 							<input type="hidden" id="preg_mem" name="preg_mem" value="<%=rs.getString(6)%>"> 
 							<input type="hidden" id="preg_instances" name="preg_instances" value="<%=rs.getString(7)%>"> 
-							<input type="hidden" id="code" name="code" value="0"> 
+							<input type="hidden" id="code" name="code" value="<%=rs.getString(8)%>"> 
 					    <input type="hidden" id="resource" name="resource" value="00">
 						<input type="hidden"	id="from" name="from" value="stop">
                         <input type="submit" id="submit" name="submit" value="删除">

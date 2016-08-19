@@ -59,7 +59,7 @@ public class Create_db_Image {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		String i_name = "10.97.144.83:5000/" + username + "/" +imagename;
+		String i_name = "192.168.1.89:5000/" + username + "/" +imagename;
 
 	}
 	
